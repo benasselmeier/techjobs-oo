@@ -22,16 +22,10 @@ public class JobForm {
     @NotNull
     private int employerId;
 
-    @NotNull
-    @Size(min=1, message = "Location may not be empty")
     private int locationId;
 
-    @NotNull
-    @Size(min=1, message = "Core Competency may not be empty")
     private int coreCompetencyId;
 
-    @NotNull
-    @Size(min=1, message = "Position Type may not be empty")
     private int positionTypeId;
 
     /*
@@ -126,9 +120,7 @@ public class JobForm {
         return coreCompetencies;
     }
 
-    public void setCoreCompetencies(ArrayList<CoreCompetency> coreCompetencies) {
-        this.coreCompetencies = coreCompetencies;
-    }
+    public void setCoreCompetencies(ArrayList<CoreCompetency> coreCompetencies) { this.coreCompetencies = coreCompetencies; }
 
     public ArrayList<PositionType> getPositionTypes() {
         return positionTypes;
@@ -137,4 +129,5 @@ public class JobForm {
     public void setPositionTypes(ArrayList<PositionType> positionTypes) {
         this.positionTypes = positionTypes;
     }
+
 }
