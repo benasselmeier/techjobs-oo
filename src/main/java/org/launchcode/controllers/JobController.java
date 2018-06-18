@@ -6,10 +6,7 @@ import org.launchcode.models.data.JobData;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -27,7 +24,6 @@ public class JobController {
     public String index(Model model, @RequestParam int id) {
 
         // TODO #1 - get the Job with the given ID and pass it into the view
-        // CALL findById from JobData class.
 
         Job thisJob = jobData.findById(id);
         model.addAttribute("job", thisJob);
@@ -47,18 +43,16 @@ public class JobController {
         // new Job and add it to the jobData data store. Then
         // redirect to the job detail view for the new Job.
 
+        JobData jobData = JobData.getInstance();
         if (errors.hasErrors()) {
-            model.addAttribute(new JobForm());
             return "new-job";
         }
         else {
             String aName = jobForm.getName();
-            int aEmployerId = jobForm.getEmployerId();
-            int aLocationId = jobForm.getLocationId();
-            int aPositionTypeId = jobForm.getPositionTypeId();
-            int aSkillId = jobForm.getCoreCompetencyId();
-
-            Employer employer = Job.getEmployer(aEmployerId));
+            Employer aEmployer = jobData.getEmployers().findById(jobForm.getEmployerId());
+            Location aLocation = jobData.getLocations().findById(jobForm.getLocationId());
+            PositionType aPositionType = jobData.getPositionTypes().findById(jobForm.getPositionTypeId());
+            CoreCompetency aSkill = jobData.getCoreCompetencies().findById(jobForm.getCoreCompetencyId());
 
             Job newJob = new Job (aName, aEmployer, aLocation, aPositionType, aSkill);
 
@@ -66,8 +60,7 @@ public class JobController {
 
             jobData.add(newJob);
 
-            return "job-detail";
-
+            return "redirect:/job?id=" + newJob.getId();
         }
     }
 }
